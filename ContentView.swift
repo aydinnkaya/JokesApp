@@ -8,15 +8,30 @@
 import SwiftUI
 
 struct ContentView: View {
-    var body: some View {
-        VStack {
-            Image(systemName: "globe")
-                .imageScale(.large)
-                .foregroundStyle(.tint)
-            Text("Demo")
-        }
-        .padding()
-    }
+    
+    @ObservedObject var jokesVM = JokesViewModel()
+       
+       var body: some View {
+          
+           NavigationView {
+               
+               List(jokesVM.jokes) { element in
+                   Text(element.joke)
+               }
+               .toolbar {
+                   Button(action: addJoke) {
+                       Text("Get New Joke")
+                   }
+               }
+               .navigationTitle("Jokes App")
+               
+           }
+           
+       }
+       
+       func addJoke() {
+           jokesVM.getJokes(count: 1)
+       }
 }
 
 #Preview {
